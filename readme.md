@@ -68,3 +68,31 @@ php artisan serve
 - Pastikan folder `storage` dan `bootstrap/cache` dapat ditulis.
 - Jangan sertakan file `.env` ke dalam repository.
 - Jika belum ada dependensi, jalankan `composer install`.
+
+## Deploy ke Railway
+
+1. Buat project baru di Railway dan hubungkan dengan repository GitHub Anda.
+2. Tambahkan service MySQL di Railway untuk database.
+3. Di Railway, atur environment variables untuk Laravel:
+
+```env
+APP_ENV=production
+APP_DEBUG=false
+APP_URL=https://<railway-app-url>
+DB_CONNECTION=mysql
+DB_HOST=<railway-mysql-host>
+DB_PORT=<railway-mysql-port>
+DB_DATABASE=<railway-database>
+DB_USERNAME=<railway-username>
+DB_PASSWORD=<railway-password>
+```
+
+4. Railway akan menjalankan `composer install` secara otomatis. Jika command start perlu ditentukan, gunakan `Procfile` berikut:
+
+```text
+web: php artisan serve --host=0.0.0.0 --port=${PORT}
+```
+
+5. Jika aplikasi tidak bisa terhubung ke database, cek kembali konfigurasi MySQL dan pastikan service Railsnya sudah aktif.
+
+6. Untuk preview, akses URL Railway yang diberikan setelah deployment selesai.
